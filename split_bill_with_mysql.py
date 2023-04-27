@@ -139,36 +139,23 @@ def remove_member():
   db.commit()
   print("member deleted !")
 
+def remove_transaction():
+  show_group_name()
+  choice = input("Enter the group name whose transaction want to delete : ")
+  df = pd.read_sql('SELECT * FROM '+choice, con=db )
+  print(df)
+  trans_no = input("Enter the transaction id you want to delete : ")
+  query = "DELETE FROM "+choice+" WHERE Trans_id="+trans_no+" ;"
+  print(query)
+  cursor.execute(query)
+  db.commit()
+  print("Transaction successfully removed")
 
-# def bill_settalment():
-#   show_group_name()
-#   choice = input("Enter the group name That Bill you want to genrate : ")
-#   df = pd.read_sql('SELECT * FROM '+choice, con=db)
-#   member_list = list(df.columns)
-#   member_list = member_list[1:]
-#   print(member_list)
-#   print(df)
-#   print("select any member that transaction history you want to see : ")
-#   count = 1
-#   for i in member_list:
-#     print("Enter ",count," for",i)
-#     count=count+1
-#   selected_member = int(input("Enter your choice --> "))
 
-#   df1 = df.groupby('PaidBy').sum()
-#   print(df1)
-#   remaning_member_list = member_list.remove(selected_member)
-#   print(remaning_member_list)
-#   for i in remaning_member_list:
-#     result = float(df1[df1['PaidBy']==selected_member][i])-float(df1[df1['PaidBy']== i][selected_member])
-#     if result < 0:
-#       print(selected_member,"need to give ",abs(result),"amount to ",i)
-#     elif result>0:
-#       print(selected_member,"need to take ",abs(result),"amount to ",i)
 
 def bill_settlement():
   show_group_name()
-  choice = input("Enter the group name That Bill you want to genrate : ")
+  choice = input("Enter the group name that Bill you want to genrate : ")
   df = pd.read_sql('SELECT * FROM '+choice, con=db)
   df = df.drop(['Trans_id','Expence_name'],axis=1)
   column_names = df.columns.tolist()
@@ -233,7 +220,7 @@ if __name__ == "__main__":
   #split_an_expense()
   #add_new_member()
   #remove_member()
-  
-  bill_settlement()
+  remove_transaction()
+  #bill_settlement()
   #show_all_gr_trans()
   cursor.close()
