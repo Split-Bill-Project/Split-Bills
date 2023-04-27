@@ -128,6 +128,11 @@ def add_new_member():
 def remove_member():
   show_group_name()
   choice = input("Enter the group name in which you want to delete member : ")
+  query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+choice+"' ORDER BY ORDINAL_POSITION;"
+  cursor.execute(query)
+  results = cursor.fetchall()
+  clean_lst = [x[0] for x in results[3:]]
+  print(clean_lst)
   delete_member = input(" Enter the member name want to delete : ")
   query = "ALTER TABLE " + choice + " DROP COLUMN " + delete_member + " ;"
   cursor.execute(query)
@@ -135,41 +140,38 @@ def remove_member():
   print("member deleted !")
 
 
-def bill_settalment():
-  show_group_name()
-  choice = input("Enter the group name That Bill you want to genrate : ")
-  df = pd.read_sql('SELECT * FROM '+choice, con=db)
-  member_list = list(df.columns)
-  member_list = member_list[1:]
-  print(member_list)
-  print(df)
-  print("select any member that transaction history you want to see : ")
-  count = 1
-  for i in member_list:
-    print("Enter ",count," for",i)
-    count=count+1
-  selected_member = int(input("Enter your choice --> "))
+# def bill_settalment():
+#   show_group_name()
+#   choice = input("Enter the group name That Bill you want to genrate : ")
+#   df = pd.read_sql('SELECT * FROM '+choice, con=db)
+#   member_list = list(df.columns)
+#   member_list = member_list[1:]
+#   print(member_list)
+#   print(df)
+#   print("select any member that transaction history you want to see : ")
+#   count = 1
+#   for i in member_list:
+#     print("Enter ",count," for",i)
+#     count=count+1
+#   selected_member = int(input("Enter your choice --> "))
 
-  df1 = df.groupby('PaidBy').sum()
-  print(df1)
-  remaning_member_list = member_list.remove(selected_member)
-  print(remaning_member_list)
-  for i in remaning_member_list:
-    result = float(df1[df1['PaidBy']==selected_member][i])-float(df1[df1['PaidBy']== i][selected_member])
-    if result < 0:
-      print(selected_member,"need to give ",abs(result),"amount to ",i)
-    elif result>0:
-      print(selected_member,"need to take ",abs(result),"amount to ",i)
+#   df1 = df.groupby('PaidBy').sum()
+#   print(df1)
+#   remaning_member_list = member_list.remove(selected_member)
+#   print(remaning_member_list)
+#   for i in remaning_member_list:
+#     result = float(df1[df1['PaidBy']==selected_member][i])-float(df1[df1['PaidBy']== i][selected_member])
+#     if result < 0:
+#       print(selected_member,"need to give ",abs(result),"amount to ",i)
+#     elif result>0:
+#       print(selected_member,"need to take ",abs(result),"amount to ",i)
 
-def bill_settlement2():
+def bill_settlement():
   show_group_name()
-  #cursor = db.cursor()
   choice = input("Enter the group name That Bill you want to genrate : ")
   df = pd.read_sql('SELECT * FROM '+choice, con=db)
   df = df.drop(['Trans_id','Expence_name'],axis=1)
   column_names = df.columns.tolist()
-  #for i in column_names[1:]:
-   # df[i] = pd.Series(dtype=float)
   column_names.sort(key=lambda x: x[0])
   first_column_values = column_names[1:]
   data = {column_names[0]: first_column_values}
@@ -196,10 +198,32 @@ def bill_settlement2():
         df_calculation.iloc[i,j+1] = df_calculation.iloc[i,j+1] - df_calculation.iloc[j,i+1]
         df_calculation.iloc[j,i+1] = 0
   stacked_df = df_calculation.set_index('PaidBy').stack().reset_index()
-  nonzero_df = stacked_df.loc[stacked_df[0] != 0]
-  nonzero_df.columns = ['Payee', 'Payer', 'Amount']
-  
-  print(nonzero_df)
+  filtered_df = stacked_df.loc[stacked_df[0] != 0]
+  filtered_df.columns = ['Payee', 'Payer', 'Amount']
+  print("Press 0 to show all split expences or 1 for see indivisual member result : ",end="")
+  split_member_choice = int(input())
+  if split_member_choice == 0:
+    print(filtered_df)
+  else:
+    query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+choice+"' ORDER BY ORDINAL_POSITION;"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    clean_lst = [x[0] for x in results[3:]]
+    print(clean_lst)
+    member = input("Enter the member name whose expence want to see : ")
+    print(" Owe to you :-")
+    filtered_payee_df = filtered_df[filtered_df['Payee'] == member]
+    if filtered_payee_df.empty:
+      print("No transcation to show")
+    else:
+      print(filtered_payee_df)
+    print()
+    print(" Owe by you :-")
+    filtered_payer_df = filtered_df[filtered_df['Payer'] == member]
+    if filtered_payer_df.empty:
+      print("No transcation to show")
+    else:
+      print(filtered_payer_df)
 
   
 
@@ -209,7 +233,7 @@ if __name__ == "__main__":
   #split_an_expense()
   #add_new_member()
   #remove_member()
-  #bill_settalment()
-  #bill_settlement2()
-  show_all_gr_trans()
+  
+  bill_settlement()
+  #show_all_gr_trans()
   cursor.close()
