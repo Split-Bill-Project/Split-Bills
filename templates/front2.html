@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Split Bill</title>
+</head>
+<body>
+    <div class = "bg-img">
+        <header>
+            <nav>
+                <ul>
+                <li><a class="active" href="/templates/front.html">Home</a></li>
+                <li><a href="/templates/create_group.html">Creat group</a></li>
+                <li><a href="/templates/split_an_expense.html">Split an expense</a></li>
+                <li><a href="/templates/Genrate_Bill.html">Genrate Bill</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class = "content">
+            <h2 class="title">Detect Your Plant Disease</h2>
+            <br /><br />
+            <div class="form">
+                
+                <form
+                class="form-horizontal"
+                action="/submit"
+                method="POST"
+                enctype="multipart/form-data">
+
+                <div class="form-txt">
+                    <label class="control-label" for="pwd">Upload Your Image :</label>
+
+                <div class="file-bar">
+                    <input type="file" class="form-control" placeholder="Hours Studied" name="my_image" id="pwd"/>
+                </div> 
+                <div class="submit-btn">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+          
+                </form>
+                <br /><br />
+                <h1> or </h1>
+
+                <div>
+                    <label class="control-label" for="pwd">Take Picture :</label>
+                    <!-- <a id ="pwd" href="wabcamjs.html"><img src="../static/bg-image/icon1.jpg" alt="capture image"></a> -->
+                    <button type="submit" class="btn btn-success" formaction="{{ url_for('jsTakePic') }}"><img src="../static/bg-image/icon1.jpg" alt="capture image"></button>
+                </div>
+
+                
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
