@@ -51,7 +51,7 @@
                   <h1>Members Names</h1>
                   <form method="POST" action="/split_expense_result">
                     {% for member in members %}
-                        <input type="radio" name="member" value="{{ member[0] }}">{{ member[0] }}<br>
+                        <input type="checkbox" name="member" value="{{ member[0] }}">{{ member[0] }}<br>
                     {% endfor %}
                     <br>
                     <input type="submit" value="Submit">

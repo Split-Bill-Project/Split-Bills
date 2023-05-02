@@ -25,7 +25,7 @@ def home():
     title = 'Split Bill - Home'
     return render_template('index.html', title=title)
 
-@app.route('/split_expense_show_group', methods=['GET', 'POST'])
+@app.route('/split_expense_show_group')
 def split_expense_show_group():
     group_names = show_group_name()
 
@@ -33,7 +33,7 @@ def split_expense_show_group():
     # return render_template("select_group.html")
     # return render_template("split_an_expense.html")
 
-@app.route('/show_member', methods=['POST'])
+@app.route('/show_member', methods=['GET','POST'])
 def show_member():
     if request.method == 'POST':
         table_name = request.form['group']
@@ -63,7 +63,7 @@ def create_group():
 def create_group_result():
     if request.method == 'POST':
         table_name = request.form['groupName']
-        member_names = request.form.getlist['member[]']
+        member_names = request.form.getlist('member[]')
         createGroup(table_name,member_names)
     return render_template("create_group_result.html")
 

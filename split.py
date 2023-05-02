@@ -46,20 +46,20 @@ def createGroup(group_name,member_names):
   query = query + member_names[-1] + " FLOAT);"
   # print(query)
   cursor.execute(query)
-  print("Group is Created !")
+  # print("Group is Created !")
 
 
 def show_column_name(table_name):
    # Execute a query to retrieve column names from the table
-    query = 'DESCRIBE ' + table_name  # or 'SHOW COLUMNS FROM your_table'
+    query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table_name + "' ORDER BY ORDINAL_POSITION;"
     cursor = db.cursor()
     cursor.execute(query)
     results = cursor.fetchall()
 
     # Extract the column names from the results
-    column_names = [row[0] for row in results[3:]]
-    print(column_names)
-    return column_names
+    results =results[3:] 
+    
+    return results
     # return results
 
 
@@ -249,7 +249,7 @@ if __name__ == "__main__":
   #split_an_expense()
   #add_new_member()
   #remove_member()
-  remove_transaction()
+  #remove_transaction()
   #bill_settlement()
   #show_all_gr_trans()
   cursor.close()
