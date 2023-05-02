@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Group Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    .member-input {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .member-input input[type="text"] {
+      flex: 1;
+      margin-right: 10px;
+    }
+    .add-member-btn {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+    <div class="bg-img">
+        <div>
+            <div class="content">
+                <style>
+                    html body {
+                      background-color: rgb(206, 206, 228);
+                    }
+                </style>
+                
+                  <!--Form Section-->
+                  <br /><br />  
+                    <h1>Create Group</h1>
+                    <form method="POST" action="{{ url_for('split_result') }}">
+                        <label for="groupName">Group Name:</label>
+                        <input type="text" id="groupName" name="groupName" required>
+
+                        <label for="memberList">Member List:</label>
+                        <div id="membersContainer">
+                        <div class="member-input">
+                            <input type="text" name="member[]" required>
+                            <button class="add-member-btn" type="button" onclick="addMemberInput()">Add Member</button>
+                        </div>
+                        </div>
+
+                        <input type="submit" value="Submit">
+                    </form>
+
+            </div>
+
+        </div>
+    </div>
+
+  <script>
+    function addMemberInput() {
+      var membersContainer = document.getElementById('membersContainer');
+      var newMemberInput = document.createElement('div');
+      newMemberInput.className = 'member-input';
+      newMemberInput.innerHTML = `
+        <input type="text" name="member[]" required>
+        <button class="add-member-btn" type="button" onclick="addMemberInput()">Add Member</button>
+        <button class="add-member-btn" type="button" onclick="removeMemberInput(this)">Remove</button>
+      `;
+      membersContainer.appendChild(newMemberInput);
+    }
+
+    function removeMemberInput(element) {
+      var memberInput = element.parentNode;
+      memberInput.parentNode.removeChild(memberInput);
+    }
+  </script>
+</body>
+</html>

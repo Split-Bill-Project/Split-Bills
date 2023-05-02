@@ -1,6 +1,8 @@
 import mysql.connector
 import pandas as pd
 
+
+table_name = ""
 # Establish a connection to the database
 db = mysql.connector.connect(
     host="localhost",
@@ -20,44 +22,70 @@ def show_group_name():
 
   results = cursor.fetchall()
 
-  for index,group_name in enumerate(results,1):
+  print(results)
 
-    print(index,"--",group_name)
+  return results
 
-def create_group():
-  group_name = input("Enter Your group name : ")
-  number_of_member = int(input("Enter Number of member :"))
-  member_list = []
-  for i in range(number_of_member):
-    print("Enter ",i+1," member name")
-    member_list.append(input(":->" ))
+  # for index,group_name in enumerate(results,1):
+
+  #   print(index,"--",group_name)
+
+def createGroup(group_name,member_names):
+  # group_name = input("Enter Your group name : ")
+  print(group_name)
+  print(member_names)
+  print(type(member_names))
+  number_of_member = len(member_names)
+  # member_list = []
+  # for i in range(number_of_member):
+  #   # print("Enter ",i+1," member name")
+  #   member_list.append(input(":->" ))
   query = 'CREATE TABLE '+ group_name + "(Trans_id INT PRIMARY KEY AUTO_INCREMENT,Expence_name VARCHAR(50), PaidBy VARCHAR(50), "
   for i in range(number_of_member-1):
-    query = query + member_list[i] + " FLOAT, "
-  query = query + member_list[-1] + " FLOAT);"
-  print(query)
+    query = query + member_names[i] + " FLOAT, "
+  query = query + member_names[-1] + " FLOAT);"
+  # print(query)
   cursor.execute(query)
   print("Group is Created !")
+
+
+def show_column_name(table_name):
+   # Execute a query to retrieve column names from the table
+    query = 'DESCRIBE ' + table_name  # or 'SHOW COLUMNS FROM your_table'
+    cursor = db.cursor()
+    cursor.execute(query)
+    results = cursor.fetchall()
+
+    # Extract the column names from the results
+    column_names = [row[0] for row in results[3:]]
+    print(column_names)
+    return column_names
+    # return results
+
 
 
 def show_all_gr_trans():
   show_group_name()
   choice = input("Enter the group name which transation history want : ")
   query = "SELECT * FROM "+choice+" ;"
-  print("---->All transaction history of "+choice+" <-----")
+  # print("---->All transaction history of "+choice+" <-----")
   cursor.execute(query)
   results = cursor.fetchall()
   for i in results:
     print(i)
   
 
-def split_an_expense():
-  show_group_name()
-  group_name = input("Enter the group name : ")
-  amount = float(input("Total  amount of expences: "))
+def split_an_expense(group_name,amount,expence_name,paidby,choice):
+  # show_group_name()
+  # group_name = input("Enter the group name : ")
+  # amount = float(input("Total  amount of expences: "))
+
   split_between_names = []
-  expence_name = input("Enter the expenxe name : ")
-  query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+group_name+"' ORDER BY ORDINAL_POSITION;"
+
+  # expence_name = input("Enter the expenxe name : ")
+
+  query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + group_name + "' ORDER BY ORDINAL_POSITION;"
+
   cursor.execute(query)
   results = cursor.fetchall()
   clean_lst = [x[0] for x in results[3:]]
@@ -67,8 +95,8 @@ def split_an_expense():
   for i in range(member_count):
     print("Enter ",i+1," member name")
     split_between_names.append(input(":-> "))  
-  paidby = input("Enter name of who paid Bill : ")
-  choice = int(input("Select 0 for equal split or 1 for customize split : "))
+  # paidby = input("Enter name of who paid Bill : ")
+  # choice = int(input("Select 0 for equal split or 1 for customize split : "))
   if choice == 0:
     equal_split = round(amount/member_count,2)
     query = "INSERT INTO " + group_name + " ( Expence_name, PaidBy, "
@@ -96,6 +124,7 @@ def split_an_expense():
       query = query + str(member_amount[k]) + ","
     query = query + str(member_amount[len(member_amount)-1]) + ");"
     print(query)
+    
   cursor.execute(query)
   db.commit()
   print("value added !")

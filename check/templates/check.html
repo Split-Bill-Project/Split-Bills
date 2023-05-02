@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take image</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="bg-img">
+        <div>
+            <div class="content">
+                <style>
+                    html body {
+                      background-color: rgb(206, 206, 228);
+                    }
+                  </style>
+                  <!--Form Section-->
+                  <br /><br />
+                  <h2 style="text-align: center; margin: 0px; color: orange">
+                    <b>Get informed advice on fertilizer based on soil</b>
+                  </h2>
+                  <br />
+                  
+                  <div
+                    style="
+                      width: 350px;
+                      height: 40rem;
+                      margin: 0px auto;
+                      color: orange;
+                      border-radius: 25px;
+                      padding: 10px 10px;
+                    "
+                  >
+                  <br /><br />  
+                    <h1>Create Group</h1>
+                    <form method="POST" action="{{ url_for('split_result') }}">
+                        <label for="groupName">Group Name:</label>
+                        <input type="text" id="groupName" name="groupName" required>
+                        <br /><br />  
+                        <label for="memberList">Member List:</label>
+                        <br /><br />  
+                        <div id="membersContainer">
+                        <div class="member-input">
+                            <input type="text" name="member[]" required>
+                            <button class="add-member-btn" type="button" onclick="addMemberInput()">Add Member</button>
+                        </div>
+                        </div>
+
+                        <input type="submit" value="Submit">
+                    </form>
+
+                    <script>
+                        function addMemberInput() {
+                          var membersContainer = document.getElementById('membersContainer');
+                          var newMemberInput = document.createElement('div');
+                          newMemberInput.className = 'member-input';
+                          newMemberInput.innerHTML = `
+                            <input type="text" name="member[]" required>
+                            <button class="add-member-btn" type="button" onclick="addMemberInput()">Add Member</button>
+                            <button class="add-member-btn" type="button" onclick="removeMemberInput(this)">Remove</button>
+                          `;
+                          membersContainer.appendChild(newMemberInput);
+                        }
+                    
+                        function removeMemberInput(element) {
+                          var memberInput = element.parentNode;
+                          memberInput.parentNode.removeChild(memberInput);
+                        }
+                      </script>
+                   
+                  </div>
+
+        </div>
+    </div>
+     
+</body>
+
+</html>
+

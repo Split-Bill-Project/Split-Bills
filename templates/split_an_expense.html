@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take image</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+    <div class="bg-img">
+        <div>
+            <div class="content">
+                <style>
+                    html body {
+                      background-color: rgb(206, 206, 228);
+                    }
+                  </style>
+                  <!--Form Section-->
+                  <br /><br />
+                  <h2 style="text-align: center; margin: 0px; color: rgb(9, 8, 8)">
+                    <b>Select Group Name </b>
+                  </h2>
+                  <br />
+                  
+                  <div
+                    style="
+                      width: 350px;
+                      height: 40rem;
+                      margin: 0px auto;
+                      color: rgb(216, 181, 8);
+                      border-radius: 25px;
+                      padding: 10px 10px;
+                    "
+                  >
+                
+                  <!--Form Section-->
+                  <br /><br />  
+                  <h1>Group Names</h1>
+                  <form id="groupForm">
+                    <label for="groupName">Enter Group:</label>
+                    <input type="text" id="groupName" name="groupName" required>
+                    <br>
+                    <button type="submit">Get Group Names</button>
+                  </form>
+                
+                  <div id="columnNames" style="display: none;">
+                    <h2>Select Column Name:</h2>
+                    <form id="columnForm">
+                      <!-- Radio buttons will be dynamically added here -->
+                      <button type="submit">Submit</button>
+                    </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("groupForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+      
+        const groupName = document.getElementById("groupName").value;
+        fetch("/get_column_names", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            groupName: groupName
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          const columnForm = document.getElementById("columnForm");
+          columnForm.innerHTML = ""; // Clear previous radio buttons
+      
+          // Create radio buttons for each column name
+          data.columnNames.forEach(function(columnName) {
+            const label = document.createElement("label");
+            label.textContent = columnName;
+      
+            const radioButton = document.createElement("input");
+            radioButton.type = "radio";
+            radioButton.name = "column";
+            radioButton.value = columnName;
+      
+            columnForm.appendChild(label);
+            columnForm.appendChild(radioButton);
+            columnForm.appendChild(document.createElement("br"));
+          });
+      
+          document.getElementById("columnNames").style.display = "block";
+        });
+      });
+      
+      document.getElementById("columnForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+      
+        const selectedColumn = document.querySelector('input[name="column"]:checked').value;
+        // You can send the selected column to the backend or perform any other desired action
+      });
+      
+      </script>
+</body>
+</html>

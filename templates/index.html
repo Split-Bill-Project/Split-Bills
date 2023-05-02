@@ -1,17 +1,327 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title>Split Bill Calculator</title>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	<title>{{ title }}</title>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
+
+	<!-- for-mobile-apps -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta name="keywords" content="Agro Harvest Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+
+	<style>
+		html {
+			font-size: 1rem;
+		}
+
+		@media (min-width: 576px) {
+			html {
+				font-size: 1.25rem;
+			}
+		}
+
+		@media (min-width: 768px) {
+			html {
+				font-size: 1.5rem;
+			}
+		}
+
+		@media (min-width: 992px) {
+			html {
+				font-size: 1.75rem;
+			}
+		}
+
+		@media (min-width: 1200px) {
+			html {
+				font-size: 2rem;
+			}
+
+			html {
+				font-size: 1rem;
+			}
+
+			h1 {
+				font-size: 1.2rem;
+			}
+
+			h2 {
+				font-size: 1.1rem;
+			}
+
+			@media (min-width: 768px) {
+				html {
+					font-size: 1.1rem;
+				}
+
+				h1 {
+					font-size: 1.3rem;
+				}
+
+				h2 {
+					font-size: 1.2rem;
+				}
+			}
+
+			@media (min-width: 991px) {
+				html {
+					font-size: 1.2rem;
+				}
+
+				h1 {
+					font-size: 1.5rem;
+				}
+
+				h2 {
+					font-size: 1.4rem;
+				}
+			}
+
+			@media (min-width: 1200px) {
+				html {
+					font-size: 1.2rem;
+				}
+
+				h1 {
+					font-size: 1.7rem;
+				}
+
+				h2 {
+					font-size: 1.6rem;
+				}
+			}
+
+		}
+	</style>
+	<script>
+		addEventListener("load", function (){
+			setTimeout(hideURLbar, 0);}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+
+	</script>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	</body>
+	<!-- css files -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="{{ url_for('static', filename='css2/bootstrap.css') }}" rel='stylesheet' type='text/css' />
+	<!-- bootstrap css -->
+	<link href="{{ url_for('static', filename='css2/style.css') }}" rel='stylesheet' type='text/css' />
+	<!-- custom css -->
+	<link href="{{ url_for('static', filename='css2/font-awesome.min.css') }}" rel="stylesheet"><!-- fontawesome css -->
+	<!-- //css files -->
+	<!-- <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png?') }}"> -->
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+	<script type="text/JavaScript" src="{{ url_for('static', filename='scripts/cities.js') }}"></script>
+
+
+	<!-- google fonts -->
+	<link href="//fonts.googleapis.com/css?family=Thasadith:400,400i,700,700i&amp;subset=latin-ext,thai,vietnamese"
+		rel="stylesheet">
+	<!-- //google fonts -->
+
+	<style>
+		header {
+			background-color: rgba(30, 30, 30, 1);
+			margin-top: 0rem;
+			display: block;
+
+		}
+	</style>
 </head>
+
 <body>
-	<h1>Split Bill Calculator</h1>
-	<form action="/" method="post">
-		<label for="total">Total amount:</label>
-		<input type="number" id="total" name="total" required><br><br>
-		<label for="num_people">Number of people:</label>
-		<input type="number" id="num_people" name="num_people" required><br><br>
-		<input type="submit" value="Calculate">
-	</form>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" style="background-color: #1C00ff00;">
+		<div class="container">
+			<a class="navbar-brand" href="{{ url_for('home') }}">
+				<img src="{{ url_for('static', filename='image/logo_v.png') }}" style="width: 90px; height: 55px" alt="">
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="{{ url_for('home') }}">Home
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('split_expense_show_group') }}">Split An Expense</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('create_group') }}">Create Group</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('genrate_bill') }}">Genrate Bill</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+
+
+
+    <!-- banner -->
+    <section class="banner_w3lspvt" id="home">
+        <div class="csslider infinity" id="slider1">
+        
+                    <div class="banner-top">
+                        <div class="overlay">
+                            <div class="container">
+                                <div class="w3layouts-banner-info text-center">
+                                    <h3 class="title" > Split Bill</h3>
+                                    <h4 class="text-wh mx-auto my-4"><b>Easily Split your Bill With Us !</b></h4>
+                                    <br>
+                                    <!-- <h4 class="text-wh mx-auto my-4"><strong> Here are some questions we'll answer</strong></h4>
+                                    <p class="text-li mx-auto mt-2">
+                                        1. What crop to plant here? <br>
+                                        2. What fertilizer to use? <br>
+                                        3. Which disease do your crop have?<br>
+                                        4. How to cure the disease?</p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </section>
+    <!-- //banner -->
+
+    <!-- core values -->
+    <section class="core-value py-5">
+        <div class="container py-md-4">
+            <h3 class="heading mb-sm-5 mb-4 text-center"> About Us</h3>
+            <div class="row core-grids">
+                <div class="col-lg-6 core-left">
+                    <img src="{{ url_for('static', filename='image/core.png') }}" class="img-fluid" alt="" />
+                </div>
+                <div class="col-lg-6 core-right">
+                    <h3 class="mt-4">Split bills applications are mobile or web-based tools designed to simplify the process of dividing expenses among a group of people.</h3>
+                    <p class="mt-3">These apps are particularly useful when friends, roommates, or colleagues want to split the costs of shared expenses, such as meals, rent, utilities, or travel expenses. Instead of manually calculating and tracking each person's share, these apps automate the process and provide a convenient platform for managing shared expenses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- //core values -->
+
+    <!-- Products & Services -->
+    <section class="blog py-5">
+        <div class="container py-md-5">
+            <h3 class="heading mb-sm-5 mb-4 text-center"> Our Services</h3>
+            <div class="row blog-grids">
+                <div class="col-lg-4 col-md-6 blog-left mb-lg-0 mb-sm-5 pb-lg-0 pb-5">
+                    <img src="{{ url_for('static', filename='image/Split_exp.png') }}" class="img-fluid" alt="" />
+                    <a href="{{ url_for('split_expense_show_group') }}">
+                        <div class="blog-info">
+
+                            <h4>Split An Expense</h4>
+
+                            <p class="mt-2"> To divide the expenses among the group members based on predefined rules, such as an equal split or a custom percentage allocation.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 blog-middle mb-lg-0 mb-sm-5 pb-lg-0 pb-md-5">
+                    <img src="{{ url_for('static', filename='image/Genrate_bill.png') }}" class="img-fluid" alt="" />
+                    <a href="{{ url_for('genrate_bill') }}">
+                        <div class="blog-info">
+                            <h4>Genrate Bill</h4>
+                            <p class="mt-2">you can assign the total amount and number of people, and then split_bill function will calculate the amount per person and return.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 blog-right mt-lg-0 mt-5 pt-lg-0 pt-md-5">
+
+                    <img src="{{ url_for('static', filename='image/create_group.png') }}" class="img-fluid" alt="">
+
+                    <a href="{{ url_for('create_group') }}">
+                        <div class="blog-info">
+                            <h4>Create Group</h4>
+                            <p class="mt-2">Give your group a name that reflects its purpose, such as "Split Bills Group" or "Roommates Expenses.", then add members in group with there name.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- //Products & Services -->
+
+
+    <!-- Creating custom grid and hover effect
+    <section>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div class="hovereffect">
+            <img class="img-responsive" src="images/s2.jpg" alt="">
+            <div class="overlay">
+            <h2>Hover effect 1</h2>
+            <a class="info" href="#">link here</a>
+            </div>
+        </div>
+    </div> -->
+
+    </html>
+
+
+
+        <!-- footer -->
+        <footer class="text-center py-5">
+            <div class="container py-md-3">
+                <!-- logo -->
+                <h2 class="logo2 text-center">
+                    <a href="{{ url_for('home') }}">
+                        Split Bill
+                    </a>
+                </h2>
+                <!-- //logo -->
+                <!-- address -->
+                <div class="contact-left-footer mt-4">
+
+
+
+
+
+                    <!-- <a href="community.html">Community</a> -->
+                    </p>
+                </div>
+                <div class="w3l-copy text-center">
+                    <p class="text-da">An Intelligence Way To Split Bill <br> </p>
+                </div>
+                <p class="homelogo">
+                <p>Made By Palkesh and Shubham</p>
+                <p>&copy; Copyright 2022 Shubham Patil and Palkesh Malviya </p>
+                
+            </div>
+        </footer>
+        <!-- //footer -->
+
+        <!-- move top icon -->
+        <a href="#home" class="move-top text-center"></a>
+        <!-- //move top icon -->
 </body>
+
 </html>

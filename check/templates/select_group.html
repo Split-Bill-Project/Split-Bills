@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title>Select Group</title>
+</head>
+<body>
+    <h1>Select Group</h1>
+    <form method="POST" action="/">
+        {% for group in groups %}
+            <input type="radio" name="group" value="{{ group[0] }}">{{ group[0] }}<br>
+        {% endfor %}
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Group Name Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Group Name Form</h1>
+  <form action="/process" method="post">
+    <label for="group_name">Group Name:</label>
+    <input type="text" id="group_name" name="group_name" required>
+    <input type="submit" value="Submit">
+  </form>
+
+  <h2>Column Names:</h2>
+  <form id="column_names_form" style="display: none;">
+    <div id="column_names"></div>
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var groupName = document.getElementById('group_name').value;
+
+      fetch('/get_column_names', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          group_name: groupName
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        var columnNames = data.column_names;
+        var columnNamesForm = document.getElementById('column_names_form');
+        var columnNamesDiv = document.getElementById('column_names');
+
+        columnNamesDiv.innerHTML = '';
+
+        for (var i = 0; i < columnNames.length; i++) {
+          var columnName = columnNames[i];
+          var label = document.createElement('label');
+          var input = document.createElement('input');
+          input.type = 'radio';
+          input.name = 'member';
+          input.value = columnName;
+          label.appendChild(input);
+          label.appendChild(document.createTextNode(columnName));
+          columnNamesDiv.appendChild(label);
+        }
+
+        columnNamesForm.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
